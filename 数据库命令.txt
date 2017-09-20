@@ -1,0 +1,71 @@
+show dbs // 显示所有的数据库列表
+use // 数据库名称，新建数据库或者是切换到数据库
+db.集合名称.insert({}) // 插入一条数据
+db.dropdatabase() // 删除数据库
+
+show tables // 显示所有的集合
+db.createCollection('集合') // 新建集合
+db.集合名称.drop() // 删除集合
+
+
+新增操作：
+
+db.集合名称.insert({}) //  插入数据
+db.集合名称.insertOne({}) // 插入一条数据
+db.集合名称.insertMany({}) // 插入多条数据
+
+
+修改操作：
+
+1. db.集合名称.update({查询条件},{更新操作}) // (推荐)
+例：ab.student.update({by:"菜鸟教程"},{$set:{by:"我不是菜鸟教程"}})
+2. db.集合名称.save({}) // 新增/修改(不推荐) 
+例(修改成以下样式)：
+db.student.save({
+    "_id":ObjectId("59929098c9fbe9da6af15b5c"),
+    "likes":100.0
+})
+
+
+删除操作：
+
+db.集合名称.remove({删除条件}) // 删除一条数据
+例：db.student.remove({"likes":100.0})
+
+
+查询操作：
+
+db.集合名称.find() // 查询所有的数据
+db.集合名称.find({name:"裴猛"}) // 查询一条数据
+例: db.集合名称.find({name:"裴猛"})
+
+AND条件：（逻辑与）
+db.集合名称.find({},{}) // 多条件查询
+例：db.student.find({"size":{$gt:100}},{"age":{$lt:20}})
+db.集合名称.find({查询字段:{$gt/lt:0}}) // 大于/小于
+db.集合名称.find({查询字段:{$gte/lte:0}}) // 大于等于/小于等于
+
+OR条件：（逻辑或）
+db.集合名称.find({$or:[{条件一},{条件二}]})
+例：db.student.find({$or:[{"name":"裴猛"},{"name":"徐飞飞"}]})
+
+分页查询：
+
+db.集合名称.find({}).limit(3) // 查询三条数据
+
+db.集合名称.find({}).skip(3) // 从第三条开始查(起始位置)
+db.集合名称.find({}).limit(3).skip(3) // 从第三条开始查(起始位置),查询三条数据
+
+
+
+排序：
+db.集合名称.find({}).sort(条件:1) // 1代表的是升序，-1代表的是降序
+例：db.student.find({}).sort({"size":1})
+
+
+聚合（算平均值、求和）：
+db.student.aggregate([{$group:{_id:"",num:{$avg:"$size"}}}])
+
+
+
+
